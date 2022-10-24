@@ -50,7 +50,8 @@ public class Brain {
 		
 		do {
 			tx = sc.nextInt();
-		} while (tx!=1&&tx!=2&&tx!=3&&tx!=4&&tx!=5&&tx!=6);
+		} while (tx!=1);
+				//&&tx!=2&&tx!=3&&tx!=4&&tx!=5&&tx!=6
 		sc.close();
 		
 		switch (tx){
@@ -136,7 +137,7 @@ public class Brain {
 
 		public Couche(int nbN) {
 				for (int i = 0; i<nbN; i++){
-					couche.add(new Neurone());
+					couche.add(new Neurone(nbN));
 					System.out.print("N"+i+" ");
 				};
 
