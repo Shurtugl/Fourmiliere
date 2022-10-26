@@ -2,7 +2,7 @@ package fr.panceaux.brain;
 
 public class MyOwn {
 	
-	//obtenir un aléatoire entre bornes
+	//obtenir un alï¿½atoire entre bornes
     public static float RandomFloat(float min, float max) {
         float a = (float) Math.random();
         float num = min + (float) Math.random() * (max - min);
@@ -17,5 +17,13 @@ public class MyOwn {
         return (float) (1/(1+Math.pow(Math.E, -x)));
     }
     
+    //fonction qui retourne TRUE n% du temps
+    public static boolean Mutation(float chance) {
+        if (chance <0)   chance =0;
+        if (chance>100)  chance =100;
+        
+    
+        return true;
+    }
     
 }
