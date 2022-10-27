@@ -1,8 +1,10 @@
 package fr.panceaux.brain;
 
+import java.util.Scanner;
+
 public class Fourmi {
 
-	/* Objet poss�dant un micro r�seau neuronal,
+	/* Objet possédant un micro réseau neuronal,
 	 * pour le d�placer au sein d'une simulation.
 	 * Tient compte de multiple param�tre selon un
 	 * g�nome qui d�fini ses connexions nerveuses
@@ -56,6 +58,34 @@ public class Fourmi {
 
 	float Kil = 0;	//tuer les voisins
 
-	
+	//---- internes à la fourmi ----
+
+
+
+
+	public static void main(String[] args){
+		Scanner sc=new Scanner(System.in);
+		int saisie =0;
+		Genome genome = null;
+		//menu
+		do{
+			System.out.println("");
+			System.out.print("CHOIX = ?");
+			saisie=sc.nextInt();
+			switch (saisie){
+				case 1 : genome = new Genome(8); break;
+				case 2 : System.out.println(genome.chrom.length); break;
+				case 3 : for (int i =0; i<genome.chrom.length; i++){
+							genome.chrom[i].imprimer(); System.out.println();}break;	
+							
+
+			}
+
+		}while (saisie!=9);
+		sc.close();
+
+
+	}
+
 
 }
