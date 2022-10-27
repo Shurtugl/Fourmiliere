@@ -11,10 +11,11 @@ public class Chromosome {
 	final int complexity=8+8+8;
 	int allele = 0;
 	int mutation = 0;
-
+	
+	//une liste d'items binaire (0, 1) stockés en int pour plus de souplesse avec les formules
 	int[] gene = new int[complexity];
 	
-	
+	//constructor, appelé pour '=new Chromosome()' qui initialise les valeurs
 	public Chromosome() {
 		for (int i=0;i<complexity;i++) {
 			allele=(int)(Math.random()*2);
@@ -22,28 +23,31 @@ public class Chromosome {
 		}
 	}
 
+	//modificateur, appelé de l'extérieur
 	public void setGene(int[] input){
 		this.gene=input;
 	}
 	
+	//affichage du contenu, utilisé en debug
 	public void imprimer(){
 		for (int i=0;i<complexity;i++){
 			System.out.print(gene[i]+",");
 		}
 	}
 	
-	public int[] reproduire(int chanceDeMuter) {
+	//reproduction retourne le gene MAIS
+	//celui ci *peut* avoir été modifié sur 1 allele:
+	//selon le taux de mutation 
+	public int[] reproduire(int tauxmute) {
 		int[] geneTemp= new int [complexity];
-		int vamuter =(int)(Math.random()*chanceDeMuter)/100;
-		if vamuter
 		geneTemp = this.gene;
-		
-		mutation=(int)(Math.random()*complexity)/complexity*chanceDeMuter/100;
-		System.out.println("mutation aléatoire à l'allele"+mutation);
-		if (mutation<=complexity) {
-			allele=(int)(Math.random()*2)/2;
-			System.out.println("par une allele set aléatoirement à"+allele);
-			geneTemp[mutation]=allele;
+		//on appelle dans ce if la fonction Chance(n) qui retourne true n% du temps
+		if (MyOwn.Chance(tauxmute)){
+			//on selectionne alors une allele au hasard
+			mutation=(int)(Math.random()*complexity)/complexity;
+			//on inverse l'allele en question
+			if (geneTemp[mutation]==1) geneTemp[mutation]=0;
+			else geneTemp[mutation]=1;
 		}
 		return geneTemp;
 	}

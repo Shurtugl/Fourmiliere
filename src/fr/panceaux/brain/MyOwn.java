@@ -18,12 +18,9 @@ public class MyOwn {
     }
     
     //fonction qui retourne TRUE n% du temps
-    public static boolean Mutation(float chance) {
-        if (chance <0)   chance =0;
-        if (chance>100)  chance =100;
-        
-    
-        return true;
+    public static boolean Chance(float n) {
+        int alea=(int)(Math.random()*100)/100;
+        return n>alea;
     }
     
 }

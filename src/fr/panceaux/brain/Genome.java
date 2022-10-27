@@ -5,12 +5,10 @@ public class Genome {
     //le nombre de gènes est une variable définie exterieurement
     public Chromosome[] genome;
     
-    Genome(int nbchro){
+    //constructor à longueur variable
+    public Genome(int nbchro){
         genome= new Chromosome[nbchro];
     }
-    
-    
-    
     
 
 }
