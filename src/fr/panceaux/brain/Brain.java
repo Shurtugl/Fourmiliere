@@ -68,10 +68,10 @@ public class Brain {
 	 */
 	public static void constCerveau() {
 		reseau = new ArrayList<Couche>();
-		System.out.println(" ** Initialisation d'un r�seau neuronal **");
+		System.out.println(" ** Initialisation d'un réseau neuronal **");
 		for (int i =0; i<nbCouche; i++) {
 
-				reseau.addAll(new Couche(nbNeurone).new Neurone(nbNeurone));
+				//reseau.addAll(new Couche(nbNeurone).new Neurone(nbNeurone));
 		}
 	}
 	
@@ -80,9 +80,9 @@ public class Brain {
 	 * pour chaque neurones les valeurs de Mem & Somme
 	 */
 	public static void impCerveau() {
-		System.out.println(" ** Affichage du contenu du r�seau neuronal ** ");
+		System.out.println(" ** Affichage du contenu du réseau neuronal ** ");
 		for (int i =0; i<nbCouche; i++) {
-			System.out.println(" --Layer n�"+i+" : --");
+			System.out.println(" --Layer no"+i+" : --");
 			reseau.get(i).impCouche();
 		}
 	}
@@ -90,7 +90,7 @@ public class Brain {
 	// ----------- DECLARATION DES OBJETS ----------
 	
 	
-	/*	une couche correspond � une liste de Neurones
+	/*	une couche correspond à une liste de Neurones
 	 *	peut : 	- obtenir la valeur somme du neurone X
 	 *			- obtenir la table de coeff du neurone X
 	 *			- forcer la somme du neurone X
@@ -141,8 +141,8 @@ public class Brain {
 
 		}
 		
-		/* un Neurone est une m�moire de :
-	     *  le coeff de chaque connexion aux neurones pr�c�dents
+		/* un Neurone est une mémoire de :
+	     *  le coeff de chaque connexion aux neurones précédents
 		 *  la valeur somme de ces neurones par leur coeff
 		 *  peut :	-forcer la valeur somme
 		 *			-forcer les valeurs de coeff memoire

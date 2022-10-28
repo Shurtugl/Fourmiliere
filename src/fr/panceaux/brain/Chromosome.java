@@ -20,11 +20,10 @@ public class Chromosome {
 		for (int i=0;i<complexity;i++) {
 			allele=(int)(Math.random()*2);
 			this.gene[i]=allele;
-			System.out.print(allele+" ");
-		}
+			}
 	}
 
-	//modificateur, appelé de l'extérieur
+	//modificateur appelable depuis parent
 	protected void setGene(int[] input){
 		this.gene=input;
 	}
@@ -32,7 +31,7 @@ public class Chromosome {
 	//affichage du contenu, utilisé en debug
 	protected void imprimer(){
 		for (int i=0;i<complexity;i++){
-			System.out.print(gene[i]+",");
+			System.out.print(this.gene[i]+",");
 		}
 	}
 	

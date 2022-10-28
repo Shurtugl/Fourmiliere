@@ -8,8 +8,11 @@ public class Genome {
 
     //constructor à longueur variable
     public Genome(int nbGenes){
-        chrom = new Chromosome[nbGenes];
-        length=nbGenes;
+        this.chrom = new Chromosome[nbGenes];
+        for (int i =0; i<nbGenes;i++){
+            this.chrom[i]=new Chromosome();
+        }
+        this.length= nbGenes;
     }
     
     //fournir la valeur des gènes input, output ou value
@@ -23,15 +26,13 @@ public class Genome {
             case 'o' : start=8;     end=start+8; break;
             case 'v' : start=2*8;   end=start+8; break;
             default : System.out.println("ERREUR : mauvaise définition du gene au chromosome "+chrom);
-            for (int i = start; i<end; i++){
+        }
+        for (int i = start; i<end; i++){
                 //le gene prend directement la valeur decimal à partir du binaire
                 gene+=(Math.pow(i-start, 2))*this.chrom[nbGene].getgene(i);
             }
-        }
+        
         return gene;
     }
 
-    protected void Imp(){
-    
-    }
 }
