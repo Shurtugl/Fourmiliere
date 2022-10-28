@@ -6,4 +6,5 @@
  *
  */
 module Brain {
+    requires java.desktop;
 }
