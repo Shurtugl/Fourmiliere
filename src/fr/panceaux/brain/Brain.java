@@ -1,6 +1,7 @@
 package fr.panceaux.brain;
 
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 	/* un Cerveau est basiquement une liste de couches
@@ -12,7 +13,7 @@ public class Brain {
 
 	private static int nbNeurone = 5;
 	private static int nbCouche = 3;
-	public static Couche[] reseau;
+	public static ArrayList<Couche> reseau;
 	
 	public static void main(String[] args) {
 		
@@ -22,71 +23,74 @@ public class Brain {
 		System.out.println("          Bienvenue         ");
 		
 		Menu();
-
 	}
 	
 	// ----------- DECLARATION DES METHODES ----------
 	
-	/* Le Menu permet de lancer différentes actions
-	 * il ne crée pas d'instance ni ne fait de calcul
-	 * il n'existe que pour séparer l'interface du backend
-	 * il ne s'utilise qu'en lançant directement brain.java
-	 * c'est une méthode ammenée à disparaître
-	 * lorsque l'objet Brain sera utilisé par un code maître
+	/* Le Menu permet de lancer diffï¿½rentes actions
+	 * il ne crï¿½e pas d'instance ni ne fait de calcul
+	 * il n'existe que pour sï¿½parer l'interface du backend
+	 * il ne s'utilise qu'en lanï¿½ant directement brain.java
+	 * c'est une mï¿½thode ammenï¿½e ï¿½ disparaï¿½tre
+	 * lorsque l'objet Brain sera utilisï¿½ par un code maï¿½tre
 	 */
 	public static void Menu() {
-		int saisie = 0;
+	
+		int tx = 0;
 		Scanner sc = new Scanner(System.in);
 		
 		System.out.println("\n  --- MENU ---");
-		System.out.println("1 - Créer un réseau de "+nbCouche+" couches, chacune de "+nbNeurone+" neurones");
-		System.out.println("2 - Afficher l'état du réseau en cours");
+		System.out.println("1 - Crï¿½er un rï¿½seau de "+nbCouche+" couches, chacune de "+nbNeurone+" neurones");
+		System.out.println("2 - Afficher l'ï¿½tat du rï¿½seau en cours");
+		System.out.println("3 - ");
+		System.out.println("4 - ");
+		System.out.println("5 - Crï¿½er un neurone ayant "+nbNeurone+" coefficients");
+		System.out.println("6 - Afficher l'ï¿½tat du neurone");
 		System.out.print("\n     Entrez votre choix : ");
 		
 		do {
-			saisie = sc.nextInt();
-		} while (saisie!=1 && saisie!=2);
+			tx = sc.nextInt();
+		} while (tx!=1);
+				//&&tx!=2&&tx!=3&&tx!=4&&tx!=5&&tx!=6
 		sc.close();
 		
-		switch (saisie){
+		switch (tx){
 		case 1 : constCerveau(); break;
 		case 2 : break;
 		default : System.out.println("Oups une erreur a du arriver.");
-		}
-		
+		}	
 	}
 	
-	/* Le constructor crée un agglomérat de couches
-	 * chaque couche construit son agglomérat de neurones
-	 * chaque neurone initialise ses valeurs aléatoirement
+	/* Le constructor crï¿½e un agglomï¿½rat de couches
+	 * chaque couche construit son agglomï¿½rat de neurones
+	 * chaque neurone initialise ses valeurs alï¿½atoirement
 	 * 
 	 */
 	public static void constCerveau() {
-		reseau = new Couche[nbCouche];
-		System.out.println(" ** Initialisation d'un réseau neuronal **");
+		reseau = new ArrayList<Couche>();
+		System.out.println(" ** Initialisation d'un rÃ©seau neuronal **");
 		for (int i =0; i<nbCouche; i++) {
-			reseau[i].constCouche();
+
+				//reseau.addAll(new Couche(nbNeurone).new Neurone(nbNeurone));
 		}
 	}
 	
-	/* méthode pour afficher le contenu du cerveau
-	 * câd pour chaque layer les neurones qu'il contient 
+	/* mï¿½thode pour afficher le contenu du cerveau
+	 * cï¿½d pour chaque layer les neurones qu'il contient 
 	 * pour chaque neurones les valeurs de Mem & Somme
 	 */
 	public static void impCerveau() {
-		System.out.println(" ** Affichage du contenu du réseau neuronal ** ");
+		System.out.println(" ** Affichage du contenu du rÃ©seau neuronal ** ");
 		for (int i =0; i<nbCouche; i++) {
-			System.out.println(" --Layer n°"+i+" : --");
-			reseau[i].impCouche();
+			System.out.println(" --Layer no"+i+" : --");
+			reseau.get(i).impCouche();
 		}
 	}
-	
-		
 	
 	// ----------- DECLARATION DES OBJETS ----------
 	
 	
-	/*	une couche correspond à une liste de Neurones
+	/*	une couche correspond Ã  une liste de Neurones
 	 *	peut : 	- obtenir la valeur somme du neurone X
 	 *			- obtenir la table de coeff du neurone X
 	 *			- forcer la somme du neurone X
@@ -94,103 +98,105 @@ public class Brain {
 	 *			- imrimer son contenu
 	 */
 	public class Couche{
-		private Neurone[] couche;
+		private ArrayList<Neurone> couche = new ArrayList<>();
 		
 		public Double setSomme_L(int nIndex) {
 			if(0<=nIndex && nIndex<=nbNeurone) {
-				return this.couche[nIndex].getSomme();
+				return this.couche.get(nIndex).getSomme();
 			}else {
 				return null;
 			}
 		}
 		
-		public Double[] getMem_L(int nIndex) {
+		public ArrayList<Double> getMem_L(int nIndex) {
 			if(0<=nIndex && nIndex<=nbNeurone) {
-				return this.couche[nIndex].getMem();
+				return this.couche.get(nIndex).getMem();
 			}else {
 				return null;
 			}
 		}
 		
 		public void setSomme_L (Double toSomme, int nIndex) {
-			couche[nIndex].setSomme(toSomme);
+			couche.get(nIndex).setSomme(toSomme);
 		}
 		
 		public void setMem_L (Double[] toMem, int nIndex) {
-			couche[nIndex].setMem(toMem);
+			couche.get(nIndex).setMem(toMem);
 		}
 		
 		public void impCouche() {
 			for (int i = 0; i<nbNeurone; i++){
 				System.out.print("["+i+"]");
-				this.couche[i].impNeurone();
+				this.couche.get(i).impNeurone();
 			}
 		}
 		
-		public void constCouche() {
-			couche = new Neurone[nbNeurone];
-			for (int i = 0; i<nbNeurone; i++){
-				System.out.print("N"+i);
-				this.couche[i].constNeurone();
-			}
-			System.out.print(" ");
+
+		public Couche(int nbN) {
+				for (int i = 0; i<nbN; i++){
+					couche.add(new Neurone(nbN));
+					System.out.print("N"+i+" ");
+				};
+
+
 		}
+		
+		/* un Neurone est une mÃ©moire de :
+	     *  le coeff de chaque connexion aux neurones prÃ©cÃ©dents
+		 *  la valeur somme de ces neurones par leur coeff
+		 *  peut :	-forcer la valeur somme
+		 *			-forcer les valeurs de coeff memoire
+		 *			-obtenir la somme interne
+		 *			-obtenir la table coeff memoire
+		 *			-imprimer son contenu
+		 *			-constructor
+		 */
+		public class Neurone {
+			public ArrayList<Double> mem = new ArrayList<>();
+			private Double somme = null;
+			
+			public void setSomme (Double valeur){
+				this.somme=valeur;
+			}
+			
+			public void setMem (Double[] tableCoeff) {
+				this.mem=(ArrayList<Double>) Arrays.asList(tableCoeff);
+			}
+			
+			public Double getSomme(){
+				return this.somme;
+			}
+			
+			public ArrayList<Double> getMem() {
+				return this.mem;
+			}
+			
+			public void impNeurone() {
+				for (int i = 0; i<nbNeurone; i++) {
+					System.out.print(this.mem);
+				}
+				System.out.print(" "+this.somme+" /");		
+			}
+			
+
+			public Neurone(int nbM) {
+					for (int i = 0; i<nbM; i++) {
+						mem.add(Math.random());
+						};
+				
+				this.somme=Math.random();
+			}
+			
+
+		//fin Neurone	
+		}
+		
 	//fin Couche
 	}
 
 	
-	/* un Neurone est une mémoire de :
-     *  le coeff de chaque connexion aux neurones précédents
-	 *  la valeur somme de ces neurones par leur coeff
-	 *  peut :	-forcer la valeur somme
-	 *			-forcer les valeurs de coeff memoire
-	 *			-obtenir la somme interne
-	 *			-obtenir la table coeff memoire
-	 *			-imprimer son contenu
-	 *			-constructor
-	 */
-	public class Neurone {
-		public Double[] mem;
-		private Double somme = null;
-		
-		public void setSomme (Double valeur){
-			this.somme=valeur;
-		}
-		
-		public void setMem (Double[] tableCoeff) {
-			this.mem=tableCoeff;
-		}
-		
-		public Double getSomme(){
-			return this.somme;
-		}
-		
-		public Double[] getMem() {
-			return this.mem;
-		}
-		
-		public void impNeurone() {
-			for (int i = 0; i<nbNeurone; i++) {
-				System.out.print(this.mem[i]);
-			}
-			System.out.print(" "+this.somme+" /");		
-		}
-		
-		public void constNeurone() {
-			mem = new Double[nbNeurone];
-			for (int i = 0; i<nbNeurone; i++) {
-				this.mem[i]=Math.random();
-			}
-			this.somme=Math.random();
-		}
-	//fin Neurone	
-	}
-	
 	
 
-	
-	
-	
 
 //fin programme Brain.java	
 }
