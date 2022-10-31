@@ -159,5 +159,11 @@ public class Fourmi {
 		this.LBf=longue;
 	}
 	
+	protected float getX(){
+		return this.Lx;
+	}
+	protected float getY(){
+		return this.Ly;
+	}
 
 }
