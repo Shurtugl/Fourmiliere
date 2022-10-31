@@ -12,7 +12,7 @@ public class main {
     static int complexity = 4;
     static int tour = 50;
     static int txDeMuta = 10;
-    static int nbDeGeneration = 20;
+    static int nbDeGeneration = 50;
 
     public static void main(String args[]) {
         
@@ -42,19 +42,18 @@ public class main {
                         nuee[i].showGenome();
                     }
                     for (int gen = 0; gen<nbDeGeneration; gen++){
+                        System.out.println("** GENERATION "+gen+" **");
+                        Afficher();
+                        System.out.println("étapes : ");
                         for (int tr=0;tr<tour;tr++){
-                            if (tr%every==0){
-                                Afficher();
-                            }
                             for (int i=0;i<quantite;i++){
                                 nuee[i].Pense();
                             }
                             Animer(tr);
-                            System.out.println("étape no"+tr);
+                            System.out.print(" "+ tr);
                         }
                         Afficher();
                         Darwin();
-                        System.out.println("Darwin passe par là");
                     }
                     for(int i=0;i<quantite;i++){
                         System.out.println("\n fourmi "+i+ " en "+(int)(nuee[i].Lx)+","+(int)(nuee[i].Ly));
@@ -76,6 +75,7 @@ public class main {
 
     //montrer un tableau ascii avec les Id de chaque fourmi
     public static void Afficher(){
+        System.out.println();
         //tire une ligne horizontale
         for (int i =0; i<Gridlargeur+2;i++){
             System.out.print("_");
