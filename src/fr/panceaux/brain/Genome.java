@@ -1,7 +1,7 @@
 package fr.panceaux.brain;
 
 public class Genome {
-    //objet contenant une liste de 3 gènes sous forme d'allele binaire
+    //objet contenant une liste de 3 gènes sous forme de 24 alleles binaires
     //le nombre d'allele est une variable définie exterieurement
     public Chromosome[] chrom;
     public int length;
@@ -34,6 +34,5 @@ public class Genome {
         
         return gene;
     }
-
 
 }

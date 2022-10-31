@@ -69,10 +69,10 @@ public class Fourmi {
 	float[] internes = null;
 
 
-	public Fourmi(int complexity,int largeur,int hauteur){
-		this.genome = new Genome(complexity);
-		this.memoireCourte = new float[complexity];
-		for (int i=0;  i<complexity; i++){
+	public Fourmi(int nbGenes,int largeur,int hauteur){
+		this.genome = new Genome(nbGenes);
+		this.memoireCourte = new float[nbGenes];
+		for (int i=0;  i<nbGenes; i++){
 			this.memoireCourte[i]=0.0f;
 		}
 		this.internes = new float[nbNeurones];
@@ -96,27 +96,27 @@ public class Fourmi {
 			input = (int)(this.genome.getGenes(i,'i')*(nbEntrees+this.nbNeurones))/255;
 			value = (float)(this.genome.getGenes(i,'v'))/255;
 			switch (input){
-				case  1 : neural = this.BD;break;	
-				case  2 : neural = this.BDx;break;
-				case  3 : neural = this.BDy;break;
-				case  4 : neural = this.Bfd;break;
-				case  5 : neural = this.Blr;break;
-				case  6 : neural = this.LBf;break;
-				case  7 : neural = this.Gen;break;
-				case  8 : neural = this.Age;break;
-				case  9 : neural = this.LMx;break;
-				case 10 : neural = this.LMy;break;
-				case 11 : neural = this.Lx;break;	
-				case 12 : neural = this.Ly;break;	
-				case 13 : neural = this.Plr;break;
-				case 14 : neural = this.Pfd;break;
-				case 15 : neural = this.LPf;break;
-				case 16 : neural = this.Pop;break;
-				case 17 : neural = this.Rnd;break;
-				case 18 : neural = this.Osc;break;
-				case 19 : neural = this.Slr;break;
-				case 20 : neural = this.Sfd;break;
-				case 21 : neural = this.Sg ;break;
+				case  0 : neural = this.BD;break;
+				case  1 : neural = this.BDx;break;	
+				case  2 : neural = this.BDy;break;
+				case  3 : neural = this.Bfd;break;
+				case  4 : neural = this.Blr;break;
+				case  5 : neural = this.LBf;break;
+				case  6 : neural = this.Gen;break;
+				case  7 : neural = this.Age;break;
+				case  8 : neural = this.LMx;break;
+				case  9 : neural = this.LMy;break;
+				case 10 : neural = this.Lx;break;
+				case 11 : neural = this.Ly;break;	
+				case 12 : neural = this.Plr;break;	
+				case 13 : neural = this.Pfd;break;
+				case 14 : neural = this.LPf;break;
+				case 15 : neural = this.Pop;break;
+				case 16 : neural = this.Rnd;break;
+				case 17 : neural = this.Osc;break;
+				case 18 : neural = this.Slr;break;
+				case 19 : neural = this.Sfd;break;
+				case 20 : neural = this.Sg ;break;
 				//les autres cas hors des 21 entrées sont des outputs depuis les neurones internes
 				default : neural = this.internes[i-nbEntrees];break;
 			}
@@ -127,18 +127,18 @@ public class Fourmi {
 			output = (int)(this.genome.getGenes(i,'o')*(nbSorties+this.nbNeurones+1))/255;
 			neural = this.memoireCourte[i];
 			switch(output){
-				case  1 : this.MY  = neural;break;
-				case  2 : this.MX  = neural;break;
-				case  3 : this.MRL = neural;break;
-				case  4 : this.Mrv = neural;break;
-				case  5 : this.Mfd = neural;break;
-				case  6 : this.Mrn = neural;break;
-				case  7 : this.LPD = neural;break;
-				case  8 : this.OSC = neural;break;
-				case  9 : this.SG  = neural;break;
-				case 10 : this.Res = neural;break;
-				case 11 : this.Kil = neural;break;
-				case 12 : //changer le nombre de neurones;break;
+				case  0 : this.MY  = neural;break;
+				case  1 : this.MX  = neural;break;
+				case  2 : this.MRL = neural;break;
+				case  3 : this.Mrv = neural;break;
+				case  4 : this.Mfd = neural;break;
+				case  5 : this.Mrn = neural;break;
+				case  6 : this.LPD = neural;break;
+				case  7 : this.OSC = neural;break;
+				case  8 : this.SG  = neural;break;
+				case  9 : this.Res = neural;break;
+				case 10 : this.Kil = neural;break;
+				case 11 : break; //changer le nombre de neurones;
 				//les autres cas hors des 11 entrées sont des inputs des neurones internes
 				default : this.internes[i-nbNeurones] = neural;break;
 			}
