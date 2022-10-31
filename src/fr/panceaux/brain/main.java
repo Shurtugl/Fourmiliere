@@ -8,17 +8,18 @@ public class main {
     static float[][] presence = null;
     static int Gridlargeur = 30;
     static int Gridhauteur = 30;
-    static int quantite = 10;
-    static int complexity = 3;
-    static int tour = 10;
+    static int quantite = 20;
+    static int complexity = 4;
+    static int tour = 50;
     static int txDeMuta = 10;
+    static int nbDeGeneration = 20;
 
     public static void main(String args[]) {
         
 
         //crÃƒÂ©er une instance de "frame" JAVA AWT
         //Affichage frame = new Affichage();
-        final int every = 1;
+        final int every = 25;
         //MENU 
         Scanner sc = new Scanner(System.in);
         int saisie;
@@ -36,18 +37,29 @@ public class main {
                     break;
                 case 2 : //lancer pour x tours
                     Init();
-                    for (int tr=0;tr<tour;tr++){
-                        if (tr%every==0){
-                            Afficher();
-                        }
-                        for (int i=0;i<quantite;i++){
-                            nuee[i].Pense();
-                        }
-                        Animer(tr);
-                        System.out.println("étape no"+tr);
+                    for(int i=0;i<quantite;i++){
+                        System.out.println("\n fourmi "+i+ " en "+(int)(nuee[i].Lx)+","+(int)(nuee[i].Ly));
+                        nuee[i].showGenome();
                     }
-                    Afficher();
-                    
+                    for (int gen = 0; gen<nbDeGeneration; gen++){
+                        for (int tr=0;tr<tour;tr++){
+                            if (tr%every==0){
+                                Afficher();
+                            }
+                            for (int i=0;i<quantite;i++){
+                                nuee[i].Pense();
+                            }
+                            Animer(tr);
+                            System.out.println("étape no"+tr);
+                        }
+                        Afficher();
+                        Darwin();
+                        System.out.println("Darwin passe par là");
+                    }
+                    for(int i=0;i<quantite;i++){
+                        System.out.println("\n fourmi "+i+ " en "+(int)(nuee[i].Lx)+","+(int)(nuee[i].Ly));
+                        nuee[i].showGenome();
+                    }
                     break; 
                 case 3 : //montrer le genome
                     for(int i=0;i<quantite;i++){
@@ -155,25 +167,37 @@ public class main {
         }
     }
 
-    static void darwin(){
+    static void Darwin(){
         //on tue les fourmis ne répondant pas à un critère
         //puis on reproduit autant de fourmi que manquantes
         //en choisissant un génome aléatoire
 
         //on élimine les fourmis sur la moitié du terrain
+        System.out.println("décès des fourmis no : ");
         for (int i=0; i<quantite; i++){
             if (nuee[i].Lx <Gridlargeur/2){
+                presence[(int)(nuee[i].Lx)][(int)(nuee[i].Ly)]-=i;
                 nuee[i]=null;
+                System.out.print(i+" ");
+                
             }
         }
 
         int alea;
+        int toX; int toY;
         //on recrée des fourmis en copiant des survivantes
         for (int i=0; i<quantite; i++){
             if (nuee[i]==null){
 
                 //on crée une nouvelle fourmi dans cette case
+                do {
+                    toX = (int)(Math.random()*Gridlargeur);
+                    toY = (int)(Math.random()*Gridhauteur);
+                }while (presence[toX][toY]>=1.0f);
+                //presence prend l'id de la fourmi
                 nuee[i]= new Fourmi(complexity,Gridlargeur,Gridhauteur);
+                nuee[i].UpdatePositions(toX, toY, 0);
+                presence[toX][toY]=presence[toX][toY]+i;
 
                 //on choisi une donneuse parmi les existantes
                 do{
@@ -185,6 +209,7 @@ public class main {
                 for (int j=0;j<nuee[alea].genome.length;j++){
                     nuee[i].genome.chrom[j].setGene(nuee[alea].genome.chrom[j].reproduire(txDeMuta));
                 }
+                
             }
         }
     }
