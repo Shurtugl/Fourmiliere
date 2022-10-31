@@ -60,7 +60,7 @@ public class Affichage extends Frame{
             }    
         });
         
-        /* BOUTONS
+         
         //affectation des effets des boutons
         btn_OK.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
@@ -81,7 +81,7 @@ public class Affichage extends Frame{
             public void actionPerformed(ActionEvent e){  
                     ;canv.repaint();
             }  
-        });    */
+        });
             
     }
     

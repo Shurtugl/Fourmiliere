@@ -90,7 +90,7 @@ public class Fourmi {
 			//on ramène sur une échelle {0,x} pour chaque paramètre
 			//on cast en int ou en float selon le besoin
 			input = (int)(this.genome.getGenes(i,'i')*(nbEntrees+this.nbNeurones))/255;
-			value = (float)(this.genome.getGenes(i,'v')*100)/255;
+			value = (float)(this.genome.getGenes(i,'v'))/255;
 			switch (input){
 				case  1 : neural = this.BD;break;	
 				case  2 : neural = this.BDx;break;
@@ -164,6 +164,16 @@ public class Fourmi {
 	}
 	protected float getY(){
 		return this.Ly;
+	}
+	protected void showGenome(){
+		int input; int output;
+		float value;
+		for (int i = 0; i<genome.length;i++){
+			input = (int)(this.genome.getGenes(i,'i')*(nbEntrees+this.nbNeurones))/255;
+			value = (float)(this.genome.getGenes(i,'v')*100)/255;
+			output = (int)(this.genome.getGenes(i,'o')*(nbSorties+this.nbNeurones+1))/255;
+			System.out.printf(" g " + i + " : " + input + " x%.1f ->"+output+"/",value);
+		}
 	}
 
 }
