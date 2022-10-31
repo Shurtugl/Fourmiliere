@@ -58,6 +58,8 @@ public class Fourmi {
 	//---- internes à la fourmi ----
 	int nbNeurones=3;
 	Genome genome = null;
+	int sizeX = 10;
+	int sizeY = 10;
 
 	//memoire courte garde autant de variable float que de neurones
 	//est utilisé pour reproduire les valeurs calculées d'une étape sur l'autre
@@ -67,7 +69,7 @@ public class Fourmi {
 	float[] internes = null;
 
 
-	public Fourmi(int complexity){
+	public Fourmi(int complexity,int largeur,int hauteur){
 		this.genome = new Genome(complexity);
 		this.memoireCourte = new float[complexity];
 		for (int i=0;  i<complexity; i++){
@@ -77,6 +79,8 @@ public class Fourmi {
 		for (int i=0; i<nbNeurones;i++){
 			this.internes[i]= 0.0f;
 		}
+		this.sizeX=largeur;
+		this.sizeY=hauteur;
 	}
 	
 	protected void Pense(){
@@ -142,12 +146,12 @@ public class Fourmi {
 	}
 
 	//mettre à jour les neurones input
-	protected void UpdatePositions(int largeur, int hauteur, int posX, int posY, int step){
+	protected void UpdatePositions(int posX, int posY, int step){
 		this.Lx  = (float)(posX);
 		this.Ly  = (float)(posY);
-		this.BDx = (float)(largeur-posX);
-		this.BDy = (float)(hauteur-posY);
-		this.BD  = (float)(Math.min(Math.min(posX,posY),Math.min(largeur-posX,hauteur-posY)));
+		this.BDx = (float)(sizeY-posX);
+		this.BDy = (float)(sizeX-posY);
+		this.BD  = (float)(Math.min(Math.min(posX,posY),Math.min(sizeX-posX,sizeY-posY)));
 		this.Age = (float)(step);
 		this.Osc = (float)(Math.sin(step*1.0));
 		this.Rnd = (float)(Math.random());
@@ -159,12 +163,6 @@ public class Fourmi {
 		this.LBf=longue;
 	}
 	
-	protected float getX(){
-		return this.Lx;
-	}
-	protected float getY(){
-		return this.Ly;
-	}
 	protected void showGenome(){
 		int input; int output;
 		float value;
