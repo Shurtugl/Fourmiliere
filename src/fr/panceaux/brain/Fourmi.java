@@ -140,7 +140,7 @@ public class Fourmi {
 				case 10 : this.Kil = neural;break;
 				case 11 : break; //changer le nombre de neurones;
 				//les autres cas hors des 11 entrées sont des inputs des neurones internes
-				default : this.internes[i-nbNeurones] = neural;break;
+				default : this.internes[i-nbSorties] = neural;break;
 			}
 		}
 	}
@@ -164,14 +164,69 @@ public class Fourmi {
 	}
 	
 	protected void showGenome(){
+	    System.out.println();
 		int input; int output;
 		float value;
 		for (int i = 0; i<genome.length;i++){
 			input = (int)(this.genome.getGenes(i,'i')*(nbEntrees+this.nbNeurones))/255;
 			value = (float)(this.genome.getGenes(i,'v')*100)/255;
 			output = (int)(this.genome.getGenes(i,'o')*(nbSorties+this.nbNeurones+1))/255;
-			System.out.printf(" g " + i + " : " + input + " x%.1f ->"+output+"/",value);
+			System.out.printf("n"+ i + ": " + input + " x%.1f ->"+output+"/",value);
+			if ((i+1)%5==0)System.out.println();
 		}
+	}
+	
+	protected void showState() {
+	    float neural = 0;
+	    System.out.println("inputs :");
+        for (int i =0; i<(nbEntrees);i++) {
+            switch (i){
+                case  0 : neural = this.BD;break;
+                case  1 : neural = this.BDx;break;  
+                case  2 : neural = this.BDy;break;
+                case  3 : neural = this.Bfd;break;
+                case  4 : neural = this.Blr;break;
+                case  5 : neural = this.LBf;break;
+                case  6 : neural = this.Gen;break;
+                case  7 : neural = this.Age;break;
+                case  8 : neural = this.LMx;break;
+                case  9 : neural = this.LMy;break;
+                case 10 : neural = this.Lx;break;
+                case 11 : neural = this.Ly;break;   
+                case 12 : neural = this.Plr;break;  
+                case 13 : neural = this.Pfd;break;
+                case 14 : neural = this.LPf;break;
+                case 15 : neural = this.Pop;break;
+                case 16 : neural = this.Rnd;break;
+                case 17 : neural = this.Osc;break;
+                case 18 : neural = this.Slr;break;
+                case 19 : neural = this.Sfd;break;
+                case 20 : neural = this.Sg ;break;
+                //les autres cas hors des 21 entrées sont des outputs depuis les neurones internes
+            }
+            System.out.print(i+": "+neural+" - ");
+            if ((i+1)%5==0)System.out.println();
+        }
+        System.out.println("\noutputs :");
+        for (int i =0; i<(nbSorties+this.nbNeurones);i++) {
+            switch(i){
+                case  0 : neural =this.MY;break;
+                case  1 : neural =this.MX ;break;
+                case  2 : neural =this.MRL;break;
+                case  3 : neural =this.Mrv;break;
+                case  4 : neural =this.Mfd;break;
+                case  5 : neural =this.Mrn;break;
+                case  6 : neural =this.LPD;break;
+                case  7 : neural =this.OSC;break;
+                case  8 : neural =this.SG ;break;
+                case  9 : neural =this.Res;break;
+                case 10 : neural =this.Kil;break;
+                //les autres cas hors des 11 entrées sont des inputs des neurones internes
+                default : neural = this.internes[i-nbSorties]; break;
+            }
+            System.out.print(i+": "+neural+" - ");
+            if ((i+1)%5==0)System.out.println();
+        }
 	}
 
 }
