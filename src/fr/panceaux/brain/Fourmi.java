@@ -18,7 +18,7 @@ public class Fourmi {
 	float Blr = 0; 	//bloquage par autrui sur les cotés
 	float LBf = 0; 	//bloquage total sur l'avant (longue**)
 	
-	float Gen = 0; 	//similarité génétique au plus proche voisin
+	float Gen = 0; 	//similarit� g�n�tique au plus proche voisin
 	float Age = 0; 	//age au sein de cette simulation
 
 	float LMx = 0; 	//dernier mouvement sur l'axe X
@@ -50,16 +50,20 @@ public class Fourmi {
 	float LPD = 0;	//distance des longues entrees **
 	float OSC = 0;	//periode d'oscillation
 	
-	float SG  = 0;	//créer pheromone
+	float SG  = 0;	//cr�er pheromone
 	float Res = 0;	//réactivité, caféine
 
 	float Kil = 0;	//tuer les voisins
 
 	//---- internes à la fourmi ----
-	int nbNeurones=3;
-	Genome genome = null;
-	int sizeX = 10;
-	int sizeY = 10;
+	int nbNeurones     = 3;
+	Genome genome      = null;
+	int orientee       = 0;
+	
+	//---- pour toutes les fourmis ----
+	static int sizeX   = 10;
+	static int sizeY   = 10;
+	static float maxmultiplier = 2.0f;
 
 	//memoire courte garde autant de variable float que de neurones
 	//est utilisé pour reproduire les valeurs calculées d'une étape sur l'autre
@@ -70,18 +74,33 @@ public class Fourmi {
 
 
 	public Fourmi(int nbGenes,int largeur,int hauteur){
-		this.genome = new Genome(nbGenes);
-		this.memoireCourte = new float[nbGenes];
-		for (int i=0;  i<nbGenes; i++){
-			this.memoireCourte[i]=0.0f;
-		}
-		this.internes = new float[nbNeurones];
-		for (int i=0; i<nbNeurones;i++){
-			this.internes[i]= 0.0f;
-		}
-		this.sizeX=largeur;
-		this.sizeY=hauteur;
+		this(nbGenes);
+		sizeX=largeur;
+		sizeY=hauteur;
 	}
+	
+    public Fourmi(int nbGenes){
+         this.genome = new Genome(nbGenes);
+         this.memoireCourte = new float[nbGenes];
+         for (int i=0;  i<nbGenes; i++){
+             this.memoireCourte[i]=0.0f;
+         }
+         this.internes = new float[nbNeurones];
+         for (int i=0; i<nbNeurones;i++){
+             this.internes[i]= 0.0f;
+         }
+    }
+    
+    protected void setBrainSize(int nbNeurones) {
+        this.nbNeurones=nbNeurones;
+        this.internes = new float[nbNeurones];
+        for (int i=0; i<nbNeurones;i++){
+            this.internes[i]= 0.0f;
+        }
+    }
+    protected void setMultiplier(float max) {
+        this.maxmultiplier=max;
+    }
 	
 	protected void Pense(){
 		float neural =0.0f;
@@ -94,7 +113,7 @@ public class Fourmi {
 			//on ramène sur une échelle {0,x} pour chaque paramètre
 			//on cast en int ou en float selon le besoin
 			input = (int)(this.genome.getGenes(i,'i')*(nbEntrees+this.nbNeurones))/255;
-			value = (float)(this.genome.getGenes(i,'v'))/255;
+			value = (float) ((float)(this.genome.getGenes(i,'v')-127.5)*maxmultiplier/255.0);
 			switch (input){
 				case  0 : neural = this.BD;break;
 				case  1 : neural = this.BDx;break;	
@@ -120,7 +139,7 @@ public class Fourmi {
 				//les autres cas hors des 21 entrées sont des outputs depuis les neurones internes
 				default : neural = this.internes[i-nbEntrees];break;
 			}
-			this.memoireCourte[i]= neural * value;
+			this.memoireCourte[i]= (float)(neural * (value));
 		}
 		//une boucle pour appliquer le prochain état des neurones
 		for (int i = 0; i<genome.length;i++){
@@ -146,14 +165,14 @@ public class Fourmi {
 	}
 
 	//mettre à jour les neurones input
-	protected void UpdatePositions(int posX, int posY, int step){
+	protected void UpdatePositions(int posX, int posY){
 		this.Lx  = (float)(posX);
 		this.Ly  = (float)(posY);
-		this.BDx = (float)(sizeY-posX);
-		this.BDy = (float)(sizeX-posY);
+		this.BDx = (float)(sizeX-posX);
+		this.BDy = (float)(sizeY-posY);
 		this.BD  = (float)(Math.min(Math.min(posX,posY),Math.min(sizeX-posX,sizeY-posY)));
-		this.Age = (float)(step);
-		this.Osc = (float)(Math.sin(step*1.0));
+		this.Age++;
+		this.Osc = (float)(Math.sin(this.Age));
 		this.Rnd = (float)(Math.random());
 	}
 
@@ -164,14 +183,13 @@ public class Fourmi {
 	}
 	
 	protected void showGenome(){
-	    System.out.println();
 		int input; int output;
 		float value;
 		for (int i = 0; i<genome.length;i++){
 			input = (int)(this.genome.getGenes(i,'i')*(nbEntrees+this.nbNeurones))/255;
-			value = (float)(this.genome.getGenes(i,'v')*100)/255;
+			value = (float)((this.genome.getGenes(i,'v')-127.5)*100)/255;
 			output = (int)(this.genome.getGenes(i,'o')*(nbSorties+this.nbNeurones+1))/255;
-			System.out.printf("n"+ i + ": " + input + " x%.1f ->"+output+"/",value);
+			System.out.printf("g"+ i + ": n" + input + " x%.1f -> n"+output+" / ",value);
 			if ((i+1)%5==0)System.out.println();
 		}
 	}
