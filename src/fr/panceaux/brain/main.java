@@ -7,100 +7,97 @@ public class main {
     static Fourmi[] nuee = null;
     static int[][] presence = null;
     static float[][] odeur = null;
-    static int Gridlargeur = 50;
-    static int Gridhauteur = 50;
-    static int quantite = 100;
-    static int complexity = 5;
-    static int nbNeurones = 5;
-    static int tour = 45;
-    static int txDeMuta = 10;
-    static int nbDeGeneration = 400;
+    static int Gridlargeur = 100;
+    static int Gridhauteur = 100;
+    static int quantite = 1000;
+    static int complexity = 20;
+    static int nbNeurones = 3;
+    static int tour = 100;
+    static int txDeMuta = 15;
+    static int nbDeGeneration = 10;
     static boolean initiated = false;
     static boolean verbose = false;
+    static boolean console = false;
 
 
     static Scanner sc = new Scanner(System.in);
     public static void main(String args[]) {
-        
 
         //créer une instance de "frame" JAVA AWT
-        //Affichage frame = new Affichage();
-        int saisie;
-        System.out.println("\n*** FOURMIS : UN GENERATEUR DE RESEAUX NEURONAUX BIOSIMULES ***");
-        //MENU 
-        do{
-            //propositions des options, secu sur la saisie
-            do {
-                System.out.println("\n  -- menu principal --");
-                System.out.println(" 0 - QUITTER");
-                System.out.println(" 1 - Paramètres");
-                System.out.println(" 2 - Initialiser la population");
-                System.out.println(" 3 - Montrer les génomes");
-                System.out.println(" 4 - Lancer la Simulation");
-                System.out.println(" 5 - Analyse d'un schéma neuronal");
-                System.out.print(" 6 - Analyse de mouvement ..");
-                saisie = sc.nextInt();sc.nextLine();
-            }while (saisie <0 || saisie>6);
-            switch (saisie){
-                case 0 : //quit
-                    break;
-                case 1 : //acceder aux modifications de parametres (methode)
-                    Param();
-                    break;
-                case 2 : //appeler l'initialisation en suivant les paramètres
-                    Init();
-                    break;
-                case 3 : //montrer le genome de toutes les fourmis
-                    if (initiated) {
-                        montrerGenomes();
-                    }else {
-                        System.out.println("Attention, la population n'a pas encore été initialisée");
-                    }
-                    break;
-                case 4 : //lancer la simulation avec affichage step by step 
-                    if (initiated) {
-                        if (verbose) montrerGenomes();
-                        generation();
-                        if (verbose) montrerGenomes();
-                    }else {
-                        System.out.println("Attention, la population n'a pas encore été initialisée");
-                    }break;
-                case 5 :   //afficher les infos d'une fourmi + son état avant/après 
-                           //appliqué à un clone sujet pour ne pas interférer
-                    if(initiated) {
-                       System.out.println("Quelle fourmi parmi les "+quantite+"souhaitez vous analyser ?");
-                       saisie = sc.nextInt();sc.nextLine();
-                       montrerDetails(saisie);
-                    }else {
-                        System.out.println("Attention, la population n'a pas encore été initialisée");
-                    }
-                case 6 : //affichage d'une génération intégrale
-                    if(initiated) {
-                        System.out.println("On souhaite voir une étape sur combien ?");
-                        saisie = sc.nextInt();sc.nextLine();
-                        for (int tr=0;tr<tour;tr++){
-                            for (int i=0;i<quantite;i++){
-                                nuee[i].Pense();
-                            }
-                            Animer(tr);
-                            System.out.print(" "+ tr);
-                            if (tr%saisie==0)Afficher();
-                            
+        if (!console) {
+        Affichage frame = new Affichage();
+        }else {
+                //MENU 
+            int saisie;
+            System.out.println("\n*** FOURMIS : UN GENERATEUR DE RESEAUX NEURONAUX BIOSIMULES ***");
+           
+            do{
+                //propositions des options, secu sur la saisie
+                do {
+                    System.out.println("\n  -- menu principal --");
+                    System.out.println(" 0 - QUITTER");
+                    System.out.println(" 1 - Paramètres");
+                    System.out.println(" 2 - Initialiser la population");
+                    System.out.println(" 3 - Montrer les génomes");
+                    System.out.println(" 4 - Lancer la Simulation");
+                    System.out.println(" 5 - Analyse d'un schéma neuronal");
+                    System.out.print(" 6 - Analyse de mouvement ..");
+                    saisie = sc.nextInt();sc.nextLine();
+                }while (saisie <0 || saisie>6);
+                switch (saisie){
+                    case 0 : //quit
+                        break;
+                    case 1 : //acceder aux modifications de parametres (methode)
+                        Param();
+                        break;
+                    case 2 : //appeler l'initialisation en suivant les paramètres
+                        Init();
+                        break;
+                    case 3 : //montrer le genome de toutes les fourmis
+                        if (initiated) {
+                            montrerGenomes();
+                        }else {
+                            System.out.println("Attention, la population n'a pas encore été initialisée");
                         }
-                    }else {
-                        System.out.println("Attention, la population n'a pas encore été initialisée");
+                        break;
+                    case 4 : //lancer la simulation avec affichage step by step 
+                        if (initiated) {
+                            if (verbose) montrerGenomes();
+                            generation();
+                            if (verbose) montrerGenomes();
+                        }else {
+                            System.out.println("Attention, la population n'a pas encore été initialisée");
+                        }break;
+                    case 5 :   //afficher les infos d'une fourmi + son état avant/après 
+                               //appliqué à un clone sujet pour ne pas interférer
+                        if(initiated) {
+                           System.out.println("Quelle fourmi parmi les "+quantite+"souhaitez vous analyser ?");
+                           saisie = sc.nextInt();sc.nextLine();
+                           montrerDetails(saisie);
+                        }else {
+                           System.out.println("Attention, la population n'a pas encore été initialisée");
+                        }
+                    case 6 : //affichage d'une génération intégrale
+                        if(initiated) {
+                            System.out.println("On souhaite voir une étape sur combien ?");
+                            saisie = sc.nextInt();sc.nextLine();
+                            step(saisie);
+                            
+                        }else {
+                            System.out.println("Attention, la population n'a pas encore été initialisée");
+                        }
                     }
-            }
             
-        }while(saisie != 0);
-       
-    System.out.println("*** Merci d'avoir joué avec nous! ***");
-    System.out.println("***                               ***");
-    System.out.println("*************************************\n\n");
-    sc.close();
+                }while(saisie != 0);
+
+            System.out.println("*** Merci d'avoir joué avec nous! ***");
+            System.out.println("***                               ***");
+            System.out.println("*************************************\n\n");
+            sc.close();
+        }
     }
 
-    private static void montrerDetails(int id) {
+    protected static void montrerDetails(int id) {
         if (id<0 || id>quantite)id = 0;
         Fourmi sujet = nuee[id];
         System.out.println("***Fourmi "+(id+1)+" avant le premier step : ");
@@ -112,24 +109,29 @@ public class main {
         
     }
 
-    private static void generation() {
+    protected static void step(int forEvery) {
+        System.out.println("étapes : ");
+        for (int tr=0;tr<tour;tr++){
+            for (int i=0;i<quantite;i++){
+                nuee[i].Pense();
+            }
+            Animer(tr);
+            System.out.print(" "+ tr);
+            if (tr%forEvery==0)Afficher();
+            
+        }
+    }
+    protected static void generation() {
         for (int gen = 0; gen<nbDeGeneration; gen++){
             System.out.println("\n** GENERATION "+gen+" **");
-            Afficher();
-            System.out.println("étapes : ");
-            for (int tr=0;tr<tour;tr++){
-                for (int i=0;i<quantite;i++){
-                    nuee[i].Pense();
-                }
-                Animer(tr);
-                System.out.print(" "+ tr);
-            }
-            Afficher();
+
+            step(1);
+
             Darwin();
         }
     }
 
-    private static void montrerGenomes() {
+    protected static void montrerGenomes() {
 
             for(int i=0;i<quantite;i++){
                 System.out.println("\n fourmi "+(1+i)+ " en "+(int)(nuee[i].Lx)+","+(int)(nuee[i].Ly));
@@ -138,20 +140,25 @@ public class main {
     }
 
     //montrer un tableau ascii avec les Id de chaque fourmi
-    public static void Afficher(){
-        System.out.println();
-        //tire une ligne horizontale
-        for (int i =0; i<Gridlargeur+2;i++){
-            System.out.print("__");
+    protected static void Afficher(){
+        String chaine="";
+        if (!console){
+            //tire une ligne horizontale
+            System.out.println();
+            for (int i =0; i<Gridlargeur+2;i++){
+                System.out.print("__");
+            }
+            System.out.println();
         }
-        System.out.println();
+        
         //parcours la zone
         for (int j = 0; j<Gridhauteur; j++){
-            System.out.print("| ");
+            if(!console)System.out.print("| ");
             for (int i = 0; i<Gridlargeur; i++){
                 if ((presence[i][j])>0){
                     //affiche l'ID de la fourmi
-                    System.out.print((presence[i][j]));
+                    if (verbose)System.out.print((presence[i][j]));
+                    else System.out.print("* ");
                 } else {
                     System.out.print("  ");
                 }
@@ -161,7 +168,7 @@ public class main {
         }
     }
 
-    public static void Param() {
+    protected static void Param() {
         int saisie;
         boolean modified = false;
         do{
@@ -198,9 +205,11 @@ public class main {
             }
     }
     
-    public static void Init(){
-        
-        System.out.println("Initialisation de "+quantite+" fourmis, génération 0");
+    protected static void Init(){
+        if (console)
+            Affichage.text.setText("Initialisation de "+quantite+" fourmis, génération 0");
+        else
+            System.out.println("Initialisation de "+quantite+" fourmis, génération 0");
         //variables de fonctionnement
         
         int toX; int toY;
@@ -232,7 +241,7 @@ public class main {
     }
 
     //modifier les positions selon les neurones output
-    public static void Animer(int step){
+    protected static void Animer(int step){
         int x;
         int y;
         int newx;
@@ -269,19 +278,19 @@ public class main {
         }
     }
 
-    static void Darwin(){
+    protected static void Darwin(){
         //on tue les fourmis ne répondant pas à un critère
         //puis on reproduit autant de fourmi que manquantes
         //en copiant un génome aléatoire
         int nbMorts=0;
-         System.out.println("décès naturels :");
+        if (verbose)System.out.println("décès naturels :");
         for (int i=0; i<quantite; i++){
           //reset des presences dans l'espace
             presence[(int)(nuee[i].Lx)][(int)(nuee[i].Ly)]=0;
           //on Ã©limine les fourmis sur la moitié du terrain
             if (nuee[i].Lx <Gridlargeur/2){
                 nuee[i]=null;  
-                System.out.print((i+1)+" ");
+                if (verbose)System.out.print((i+1)+" ");
                 nbMorts++;
             }
         }
@@ -317,7 +326,7 @@ public class main {
             presence[toX][toY]=(i+1);
             
         }
-        if (verbose) System.out.println("                                         Nombre de tués remplacés : "+nbMorts);
+         System.out.println("                                         Nombre de tués remplacés : "+nbMorts);
     }
 
 }
